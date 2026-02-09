@@ -1,0 +1,6 @@
+init/
+Middleware/
+node_modules/
+notes
+npminstalled
+.env

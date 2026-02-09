@@ -1,0 +1,59 @@
+<% layout("/layouts/boilerplate.ejs") -%>
+
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h2>Create a New Listing</h2>
+            <br>
+            <form method="POST" action="/listings">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input name="listing[title]" placeholder="enter title" type="text" id="title"
+                        class="form-control" />
+                </div>
+                <br />
+                <div class="mb-3">
+                    <label for="description" class="form-label">description</label>
+                    <textarea name="listing[description]" placeholder="enter description"
+                        class="form-control"></textarea>
+                </div>
+                <br />
+                <div class="mb-3">
+                    <label for="image" class="form-label">image</label>
+                    <input name="listing[image][url]" placeholder="enter image URL/Link" type="text" class="form-control" />
+                </div>
+                <br />
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label for="price" class="form-label">price</label>
+                        <input name="listing[price]" placeholder="enter price" type="number" class="form-control" />
+                    </div>
+                    <br />
+                    <div class="mb-3 col-md-8">
+                        <label for="country" class="form-label">country</label>
+                        <input name="listing[country]" placeholder="enter country" type="text" class="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div class="mb-3">
+                    <label for="location" class="form-label">location</label>
+                    <input name="listing[location]" placeholder="enter location" type="text" class="form-control" />
+                </div>
+                <br />
+                <button class="btn btn-dark d-block mx-auto add-btn">Edit Listing</button>
+                <br>
+                <br>
+            </form>
+        </div>
+    </div>
+    <!-- <input name="title" placeholder="enter title" type="text" />
+        <br />
+        <textarea name="description" placeholder="enter description"></textarea>
+        <br />
+        <input name="image" placeholder="enter image URL/Link" type="text" />
+        <br />
+        <input name="price" placeholder="enter price" type="number" />
+        <br />
+        <input name="country" placeholder="enter country" type="text" />
+        <br />
+        <input name="location" placeholder="enter location" type="text" />
+        <br /> -->
