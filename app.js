@@ -24,8 +24,9 @@ app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
 app.get("/", (req, res) => {
-    res.send("hi");
-})
+    res.send(`<a href="/listings">Go to Listings</a>`);
+});
+
 //index route
 app.get("/listings", async (req, res) => {
     let allListings = await Listing.find({});
