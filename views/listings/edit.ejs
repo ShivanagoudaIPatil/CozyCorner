@@ -2,39 +2,75 @@
     <div class="row mt-3">
         <div class="col-8 offset-2">
             <h2>Edit Listing</h2>
-            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation">
                 <div class="mb-3">
                     <label for="title" class="form-label">title</label>
                     <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control"
-                        id="title" />
+                        id="title" required/>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please choose a title.
+                        </div>
                 </div>
                 <br /><br>
                 <div class="mb-3">
                     <label for="description" class="form-label">description</label>
-                    <textarea name="listing[description]" class="form-control"><%= listing.description %></textarea>
+                    <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
+                    <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please choose a description.
+                        </div>
                 </div>
                 <br /><br>
                 <div class="mb-3">
                     <label for="image" class="form-label">image</label>
-                    <input name="listing[image][url]" value="<%= listing.image.url %>" type="text" class="form-control" />
+                    <input name="listing[image][url]" value="<%= listing.image.url %>" type="text" class="form-control" required/>
+                    <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please choose a image.
+                        </div>
                 </div>
                 <br /><br>
                 <div class="mb-3">
                     <label for="price" class="form-label">price</label>
-                    <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" />
+                    <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required/>
+                    <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please choose a price.
+                        </div>
                 </div>
                 <br /><br>
                 <div class="mb-3">
                     <label for="country" class="form-label">country</label>
-                    <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" />
+                    <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" required/>
+                    <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please choose a country.
+                        </div>
                 </div>
                 <br /><br>
                 <div class="mb-3">
                     <label for="location" class="form-label">location</label>
-                    <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" />
+                    <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" required/>
+                    <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please choose a location.
+                        </div>
                 </div>
                 <br /><br>
-                <button class="btn btn-dark d-block mx-auto add-btn mt-3">Add Listing</button>
+                <button class="btn btn-dark d-block mx-auto add-btn mt-3">Edit Listing</button>
                 <br>
                 <br>
             </form>
