@@ -98,14 +98,19 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
 }))
 //review
 //post route
-app.post("/listings/:id/reviews", async (req, res) => {
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
-    listing.reviews.push(newReview);
-    await newReview.save();
-    await listing.save();
-    res.redirect(`/listings/${listing._id}`);
-});
+app.post(
+    "/listings/:id/reviews",
+    validateReview,
+    wrapAsync(async (req, res) => {
+        let listing = await Listing.findById(req.params.id);
+        let newReview = new Review(req.body.review);
+        listing.reviews.push(newReview);
+        await newReview.save();
+        await listing.save();
+
+        res.redirect(`/listings/${listing._id}`);
+    })
+);
 //err mmiddileware
 app.use((req, res, next) => {
     next(new ExpressError(404, "Page Not Found!"));
