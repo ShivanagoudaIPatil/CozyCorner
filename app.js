@@ -9,6 +9,7 @@ const ejsMate = require("ejs-mate"); // healp to make templte
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError");
 const { listingSchema } = require("./schema.js");
+const Review = require("./models/review.js");
 main().then(() => {
     console.log("connected to DB");
 }).catch(err => {
@@ -95,7 +96,16 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
     await Listing.findByIdAndDelete(id);
     res.redirect(`/listings`);
 }))
-
+//review
+//post route
+app.post("/listings/:id/reviews", async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+    res.redirect(`/listings/${listing._id}`);
+});
 //err mmiddileware
 app.use((req, res, next) => {
     next(new ExpressError(404, "Page Not Found!"));
