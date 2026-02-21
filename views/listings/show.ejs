@@ -25,8 +25,51 @@
             <form method="post" action="/listings/<%= listing._id%>?_method=DELETE">
                 <button class="btn btn-dark offset-4">Delete</button>
             </form>
-            //review
             </div>
+
+            <hr>
+            <h4>Leave a Review</h4>
+            <form method="POST" action="/listings/<%= listing._id %>/reviews" novalidate class="needs-validation">
+                <div class="mb-3 col-8">
+                    <label for="rating" class="form-label">Rating (1-5)</label>
+                    <input type="number" min="1" max="5" name="review[rating]" id="rating" class="form-control" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter a rating between 1 and 5.
+                    </div>
+                </div>
+                <div class="mb-3 col-8">
+                    <label for="comment" class="form-label">Comment</label>
+                    <textarea name="review[comment]" id="comment" cols="30" rows="4" class="form-control" required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter your comment.
+                    </div>
+                </div>
+                <button class="btn btn-dark mb-3">Add Review</button>
+            </form>
+
+            <h4>All Reviews</h4>
+            <% if (listing.reviews.length) { %>
+                <% for (let review of listing.reviews) { %>
+                    <div class="card mb-3 col-8">
+                        <div class="card-body">
+                            <p class="card-text"><b>Rating:</b> <%= review.rating %>/5</p>
+                            <p class="card-text"><%= review.comment %></p>
+                            <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                <button class="btn btn-sm btn-dark">Delete Review</button>
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <p>No reviews yet.</p>
+            <% } %>
+
             <br><br>
         </div>
     </div>
