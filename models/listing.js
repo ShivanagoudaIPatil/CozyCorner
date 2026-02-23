@@ -21,7 +21,7 @@ const listingSchema = new Schema({
         }
     ]
 })
-
+//Mongoose middleware
 listingSchema.post("findOneAndDelete", async (listing) => {
     if (listing) {
         await Review.deleteMany({ _id: { $in: listing.reviews } });
