@@ -1,9 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError");
 const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
+
+const redirectListingNotFound = (req, res) => {
+    req.flash("error", "Listing does not exist.");
+    return res.redirect("/listings");
+};
 
 const validateListing = (req, res, next)=>{
 let {error}= listingSchema.validate(req.body);
@@ -29,7 +35,15 @@ router.get("/new", (req, res) => {
 //show route
 router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return redirectListingNotFound(req, res);
+    }
+
     const listing = await Listing.findById(id).populate("reviews");
+    if (!listing) {
+        return redirectListingNotFound(req, res);
+    }
+
     res.render("listings/show.ejs", { listing });
 }))
 // create route
@@ -47,6 +61,7 @@ router.post("/", validateListing, wrapAsync(async (req, res, next) => {
     // console.log(req.body);
     const newListing = new Listing(req.body.listing);
     await newListing.save();
+    req.flash("success", "New Listing Created!");
     res.redirect("/listings");
 
 
@@ -54,19 +69,44 @@ router.post("/", validateListing, wrapAsync(async (req, res, next) => {
 //edit route
 router.get("/:id/edit", wrapAsync(async (req, res) => {
     let { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return redirectListingNotFound(req, res);
+    }
+
     const listing = await Listing.findById(id);
+    if (!listing) {
+        return redirectListingNotFound(req, res);
+    }
+
     res.render("listings/edit.ejs", { listing })
 }))
 //Update Route
 router.put("/:id", validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return redirectListingNotFound(req, res);
+    }
+
+    const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    if (!updatedListing) {
+        return redirectListingNotFound(req, res);
+    }
+
     res.redirect(`/listings/${id}`);
 }));
 //delete route
 router.delete("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    await Listing.findByIdAndDelete(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return redirectListingNotFound(req, res);
+    }
+
+    const deletedListing = await Listing.findByIdAndDelete(id);
+    if (!deletedListing) {
+        return redirectListingNotFound(req, res);
+    }
+
+    req.flash("success", "Listing deleted successfully!");
     res.redirect(`/listings`);
 }))
 

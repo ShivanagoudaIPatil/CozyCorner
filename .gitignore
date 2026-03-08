@@ -1,6 +1,7 @@
 init/
 Middleware/
 node_modules/
-notes
-npminstalled
+notes.txt
+npmInstalled
 .env
+classroom/

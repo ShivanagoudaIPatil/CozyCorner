@@ -96,3 +96,32 @@ border: none !important;
 .btns{
     display: flex;
 }
+
+/* Flash message */
+.custom-flash {
+    margin-top: 1rem;
+    border: none !important;
+    border-radius: 0.9rem !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.custom-flash .flash-body {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+}
+
+.custom-flash .flash-icon {
+    font-size: 1.1rem;
+}
+
+.custom-flash.alert-success {
+    background: linear-gradient(135deg, #dbf8e8, #f3fff8);
+    color: #0c6b34;
+}
+
+.custom-flash.alert-danger {
+    background: linear-gradient(135deg, #ffe0e3, #fff3f4);
+    color: #9f1d2a;
+}
