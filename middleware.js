@@ -1,7 +1,21 @@
 const Listing = require("./models/listing.js");
 const Review = require("./models/review.js");
 const ExpressError = require("./utils/ExpressError");
-const { listingSchema,reviewSchema } = require("./schema.js");
+const {
+    listingSchema,
+    reviewSchema,
+    profileUpdateSchema,
+    accountSettingsSchema,
+    passwordChangeSchema,
+    deleteAccountSchema,
+} = require("./schema.js");
+
+const throwJoiError = (error) => {
+    if (!error) return;
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400, errMsg);
+};
+
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {  //req.isAuthenticated() is provided by passort to check is uder is logined
         req.session.redirectUrl = req.originalUrl;
@@ -36,22 +50,14 @@ module.exports.isOwner = async (req, res, next) => {
 
 module.exports.validateListing = (req, res, next)=>{
 let {error}= listingSchema.validate(req.body);
-if (error) {
-    let errMsg = error.details.map((el)=> el.message).join(",");
-throw new ExpressError (400, errMsg);
-}else{
-    next();
-}
+throwJoiError(error);
+next();
 }
 
 module.exports.validateReview = (req, res, next) => {
     let { error } = reviewSchema.validate(req.body);
-    if (error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-    } else {
-        next();
-    }
+    throwJoiError(error);
+    next();
 };
 
 module.exports.isReviewAuthor = async (req, res, next) =>{
@@ -61,5 +67,29 @@ module.exports.isReviewAuthor = async (req, res, next) =>{
         req.flash("error", "You are not the author of this review");
         return res.redirect(`/listings/${id}`);
     }
+    next();
+};
+
+module.exports.validateProfileUpdate = (req, res, next) => {
+    let { error } = profileUpdateSchema.validate(req.body);
+    throwJoiError(error);
+    next();
+};
+
+module.exports.validateAccountSettings = (req, res, next) => {
+    let { error } = accountSettingsSchema.validate(req.body);
+    throwJoiError(error);
+    next();
+};
+
+module.exports.validatePasswordChange = (req, res, next) => {
+    let { error } = passwordChangeSchema.validate(req.body);
+    throwJoiError(error);
+    next();
+};
+
+module.exports.validateDeleteAccount = (req, res, next) => {
+    let { error } = deleteAccountSchema.validate(req.body);
+    throwJoiError(error);
     next();
 };

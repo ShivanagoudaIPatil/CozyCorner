@@ -14,6 +14,12 @@ const listingSchema = new Schema({
     price: Number,
     location: String,
     country: String,
+    status: {
+        type: String,
+        enum: ["active", "booked", "draft"],
+        default: "active",
+        index: true,
+    },
     owner: {
         type: Schema.Types.ObjectId,
         ref: "User",

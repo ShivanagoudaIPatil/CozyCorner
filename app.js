@@ -13,6 +13,7 @@ const ExpressError = require("./utils/ExpressError"); // import the coustom erro
 const listingsRouter = require("./routes/listing.js") // import the router
 const reviewRouter = require("./routes/review.js")// import the router
 const userRouter = require("./routes/user.js")// import the router
+const profileRouter = require("./routes/profile.js")
 const session = require("express-session"); //this is used for create session
 const flash = require("connect-flash");   // this is for flashing a message
 const passport = require("passport");// this is for hashing password and many more
@@ -75,6 +76,7 @@ app.use((req, res, next) => {
 app.use("/listings", listingsRouter)
 app.use("/listings/:id/reviews", reviewRouter)
 app.use("/", userRouter)
+app.use("/", profileRouter)
 
 //err mmiddileware
 app.use((req, res, next) => {
