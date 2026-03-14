@@ -97,6 +97,13 @@ border: none !important;
     display: flex;
 }
 
+#map {
+    height: 22rem;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
 /* Flash message */
 .custom-flash {
     margin-top: 1rem;

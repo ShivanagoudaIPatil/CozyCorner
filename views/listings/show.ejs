@@ -27,6 +27,23 @@
                 </form>
             </div>
             <% } %>
+
+            <% if (listing.geometry && listing.geometry.coordinates && listing.geometry.coordinates.length === 2) { %>
+                <hr>
+                <h4 class="col-8 offset-2">Location on Map</h4>
+                <div id="map" class="col-8 offset-2"></div>
+                <link href="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.css" rel="stylesheet">
+                <script>
+                    window.listingMapData = {
+                        mapToken: <%- JSON.stringify(mapToken) %>,
+                        coordinates: <%- JSON.stringify(listing.geometry.coordinates) %>,
+                        title: <%- JSON.stringify(listing.title) %>
+                    };
+                </script>
+                <script src="https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.js"></script>
+                <script src="/js/listingMap.js"></script>
+            <% } %>
+
                 <hr>
                 <% if(currUser) { %>
                     <h4>Leave a Review</h4>

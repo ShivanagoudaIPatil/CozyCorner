@@ -14,6 +14,15 @@ const listingSchema = new Schema({
     price: Number,
     location: String,
     country: String,
+    geometry: {
+        type: {
+            type: String,
+            enum: ["Point"],
+        },
+        coordinates: {
+            type: [Number],
+        },
+    },
     status: {
         type: String,
         enum: ["active", "booked", "draft"],
@@ -31,6 +40,9 @@ const listingSchema = new Schema({
         }
     ]
 })
+
+listingSchema.index({ geometry: "2dsphere" });
+
 //Mongoose middleware
 listingSchema.post("findOneAndDelete", async (listing) => {
     if (listing) {

@@ -1,5 +1,7 @@
 const Listing = require("../models/listing");
 const mongoose = require("mongoose");
+const ExpressError = require("../utils/ExpressError");
+const { getGeocodingClient } = require("../utils/mapbox");
 
 const redirectListingNotFound = (req, res) => {
     req.flash("error", "Listing does not exist.");
@@ -29,11 +31,30 @@ module.exports.showListing = async (req, res) => {
         return redirectListingNotFound(req, res);
     }
 
-    res.render("listings/show.ejs", { listing });
+    res.render("listings/show.ejs", {
+        listing,
+        mapToken: process.env.MAPBOX_TOKEN,
+    });
 };
 
 module.exports.createListing = async (req, res) => {
+    const geocodingClient = getGeocodingClient();
+    const geocodeQuery = `${req.body.listing.location}, ${req.body.listing.country}`;
+    const geocodeResponse = await geocodingClient
+        .forwardGeocode({
+            query: geocodeQuery,
+            limit: 1,
+        })
+        .send();
+
+    const geometry = geocodeResponse.body.features?.[0]?.geometry;
+    if (!geometry) {
+        throw new ExpressError(400, "Please provide a valid location.");
+    }
+
     const newListing = new Listing(req.body.listing);
+    newListing.geometry = geometry;
+
     if (req.file) {
         newListing.image = {
             url: req.file.path,
